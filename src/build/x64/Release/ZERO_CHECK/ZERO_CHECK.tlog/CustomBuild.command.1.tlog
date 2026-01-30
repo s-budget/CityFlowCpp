@@ -1,0 +1,10 @@
+^C:\USERS\MPRISTAV\CLIONPROJECTS\CITYFLOWCPP\SRC\BUILD\CMAKEFILES\57DFF73C388137C228DDBEA69D093422\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -SC:/Users/mpristav/CLionProjects/CityFlowCpp/src -BC:/Users/mpristav/CLionProjects/CityFlowCpp/src/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/mpristav/CLionProjects/CityFlowCpp/src/build/cityflow.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

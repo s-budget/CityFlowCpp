@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\mpristav\CLionProjects\CityFlowCpp\src\utility\utility.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\mpristav\CLionProjects\CityFlowCpp\src\utility\barrier.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\mpristav\CLionProjects\CityFlowCpp\src\engine\archive.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\mpristav\CLionProjects\CityFlowCpp\src\engine\engine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\mpristav\CLionProjects\CityFlowCpp\src\flow\flow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\mpristav\CLionProjects\CityFlowCpp\src\roadnet\roadnet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\mpristav\CLionProjects\CityFlowCpp\src\roadnet\trafficlight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\mpristav\CLionProjects\CityFlowCpp\src\vehicle\router.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\mpristav\CLionProjects\CityFlowCpp\src\vehicle\vehicle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\mpristav\CLionProjects\CityFlowCpp\src\vehicle\lanechange.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\mpristav\CLionProjects\CityFlowCpp\src\utility\config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\mpristav\CLionProjects\CityFlowCpp\src\utility\utility.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\mpristav\CLionProjects\CityFlowCpp\src\utility\barrier.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\mpristav\CLionProjects\CityFlowCpp\src\utility\optionparser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\mpristav\CLionProjects\CityFlowCpp\src\engine\archive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\mpristav\CLionProjects\CityFlowCpp\src\engine\engine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\mpristav\CLionProjects\CityFlowCpp\src\flow\flow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\mpristav\CLionProjects\CityFlowCpp\src\flow\route.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\mpristav\CLionProjects\CityFlowCpp\src\roadnet\roadnet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\mpristav\CLionProjects\CityFlowCpp\src\roadnet\trafficlight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\mpristav\CLionProjects\CityFlowCpp\src\vehicle\router.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\mpristav\CLionProjects\CityFlowCpp\src\vehicle\vehicle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\mpristav\CLionProjects\CityFlowCpp\src\vehicle\lanechange.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\mpristav\CLionProjects\CityFlowCpp\src\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{4BA23ACC-7DDA-31CF-BECB-D1782451EC0E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{9D04866A-9AAF-31D3-B446-41ED155D2390}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
