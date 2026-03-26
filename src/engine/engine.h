@@ -29,7 +29,7 @@ struct SimulationMetrics {
     int throughput;
     // queue
     int maxQueueLength;
-}
+};
 
     class Engine {
         friend class Archive;
