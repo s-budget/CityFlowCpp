@@ -90,6 +90,7 @@ namespace CityFlow {
             cnt = (cnt + 1) % threadNum;
         }
         for (Intersection &intersection : roadnet.getIntersections()) {
+          	intersection.getTrafficLight().setMaxQueuePtr(&maxQueueLength);
             threadIntersectionPool[cnt].push_back(&intersection);
             cnt = (cnt + 1) % threadNum;
         }
@@ -296,9 +297,12 @@ namespace CityFlow {
                     std::lock_guard<std::mutex> guard(lock);
                     vehicleRemoveBuffer.insert(vehicle);
                     if (!vehicle->getLaneChange()->hasFinished()) {
+                        cumulativeWaitTime += vehicle -> getStoppedSince()*interval;
+                        vehicle -> getDistance();
                         vehicleMap.erase(vehicle->getId());
                         finishedVehicleCnt += 1;
                         cumulativeTravelTime += getCurrentTime() - vehicle->getEnterTime();
+                        cumulativeDelay += (getCurrentTime() - vehicle->getEnterTime()) - (vehicle->getTotalDistanceTraveled() / vehicle->getMaxSpeed());
                     }
                     auto iter = vehiclePool.find(vehicle->getPriority());
                     threadVehiclePool[iter->second.second].erase(vehicle);
@@ -646,6 +650,16 @@ namespace CityFlow {
         return ret;
     }
 
+    std::map<std::string, std::list<Vehicle *>> Engine::getLaneVehiclesForIntersection(const std::string &id) const {
+        std::map<std::string,std::list<Vehicle *>> ret;
+        for (const Road *road : roadnet.getIntersectionById(id)->getRoads()) {
+        	for (const Lane lane : road->getLanes()) {
+            	ret.emplace(lane.getId(), lane.getVehicles());
+        	}
+        }
+        return ret;
+    }
+
     std::map<std::string, std::vector<std::string>> Engine::getLaneVehicles() {
         std::map<std::string, std::vector<std::string>> ret;
         for (const Lane *lane : roadnet.getLanes()) {
@@ -678,6 +692,10 @@ namespace CityFlow {
         return step * interval;
     }
 
+    size_t Engine::getCurrentStep() const {
+      return step;
+    }
+
     double Engine::getAverageTravelTime() const {
         double tt = cumulativeTravelTime;
         int n = finishedVehicleCnt;
@@ -688,6 +706,38 @@ namespace CityFlow {
         }
         return n == 0 ? 0 : tt / n;
     }
+
+    SimulationMetrics Engine::getFinalMetrics() const {
+    double tt = cumulativeTravelTime;
+    double wt = cumulativeWaitTime;
+    double dt = cumulativeDelay;
+    int n = finishedVehicleCnt;
+
+    for (auto &vehicle_pair : vehiclePool) {
+        auto &vehicle = vehicle_pair.second.first;
+        double actual = getCurrentTime() - vehicle->getEnterTime();
+        tt += actual;
+        wt += vehicle->getStoppedSince()*interval;
+        dt += actual - (vehicle->getTotalDistanceTraveled() / vehicle->getMaxSpeed());
+        n++;
+    }
+
+    for (Intersection intersection : roadnet.getIntersections()) {
+        intersection.getTrafficLight().updateMaxQueue();
+    }
+
+    return SimulationMetrics{
+        tt,
+        wt,
+        dt,
+        n == 0 ? 0.0 : tt / n,
+        n == 0 ? 0.0 : wt / n,
+        n == 0 ? 0.0 : dt / n,
+        n,
+        finishedVehicleCnt,
+        maxQueueLength
+    };
+}
 
     void Engine::pushVehicle(const std::map<std::string, double> &info, const std::vector<std::string> &roads) {
         VehicleInfo vehicleInfo;
@@ -713,6 +763,33 @@ namespace CityFlow {
             "manually_pushed_" + std::to_string(manuallyPushCnt++), this);
         pushVehicle(vehicle, false);
         vehicle->getFirstRoad()->addPlanRouteVehicle(vehicle);
+    }
+
+    std::vector<std::string> Engine::getIntersectionIds()  {
+
+        return [&] {
+            auto intersections = roadnet.getIntersections();  // called once
+            std::vector<std::string> out;
+            out.reserve(intersections.size());
+
+            for (const auto& i : intersections) {
+                if (!i.isVirtualIntersection()) {
+                    out.push_back(i.getId());
+                }
+            }
+
+            return out;
+        }();
+    }
+
+    int Engine::getTotalPhasesForIntersection(const std::string &id) {
+
+        return roadnet.getIntersectionById(id)->getTrafficLight().getPhases().size();
+    }
+
+    Intersection * Engine::getIntersection(const std::string &id) {
+
+        return roadnet.getIntersectionById(id);
     }
 
     void Engine::setTrafficLightPhase(const std::string &id, int phaseIndex) {
@@ -749,6 +826,9 @@ namespace CityFlow {
 
         finishedVehicleCnt = 0;
         cumulativeTravelTime = 0;
+        cumulativeDelay = 0;
+        cumulativeWaitTime = 0;
+        maxQueueLength = 0;
 
         for (auto &flow : flows) flow.reset();
         step = 0;

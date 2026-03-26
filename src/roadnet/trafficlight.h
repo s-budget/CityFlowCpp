@@ -31,7 +31,13 @@ namespace CityFlow {
         std::vector<int> roadLinkIndices;
         double remainDuration = 0.0;
         int curPhaseIndex = 0;
+        int *maxQueueLength = nullptr;
+
     public:
+        void updateMaxQueue();
+
+        void setMaxQueuePtr(int *ptr) { maxQueueLength = ptr; }
+
         void init(int initPhaseIndex);
 
         int getCurrentPhaseIndex();

@@ -15,6 +15,22 @@
 
 namespace CityFlow {
 
+struct SimulationMetrics {
+    // totals
+    double totalTravelTime;
+    double totalWaitTime;
+    double totalDelay;
+    // averages
+    double meanTravelTime;
+    double meanWaitTime;
+    double meanDelay;
+    // counts
+    int totalVehicles;
+    int throughput;
+    // queue
+    int maxQueueLength;
+}
+
     class Engine {
         friend class Archive;
     private:
@@ -57,6 +73,9 @@ namespace CityFlow {
 
         int finishedVehicleCnt = 0;
         double cumulativeTravelTime = 0;
+        double cumulativeWaitTime = 0;
+        double cumulativeDelay = 0;
+        int maxQueueLength = 0;
 
     private:
         void vehicleControl(Vehicle &vehicle, std::vector<std::pair<Vehicle *, double>> &buffer);
@@ -144,6 +163,10 @@ namespace CityFlow {
 
         std::vector<std::string> getVehicles(bool includeWaiting = false) const;
 
+        std::map<std::string, std::list<Vehicle *>> Engine::getLaneVehiclesForIntersection(const std::string &id) const ;
+
+        SimulationMetrics getFinalMetrics() const;
+
         std::map<std::string, int> getLaneVehicleCount() const;
 
         std::map<std::string, int> getLaneWaitingVehicleCount() const;
@@ -158,7 +181,15 @@ namespace CityFlow {
 
         double getCurrentTime() const;
 
+        size_t getCurrentStep() const;
+
         double getAverageTravelTime() const;
+
+        std::vector<std::string> getIntersectionIds() ;
+
+        int getTotalPhasesForIntersection(const std::string &id);
+
+        Intersection * getIntersection(const std::string &id);
 
         void setTrafficLightPhase(const std::string &id, int phaseIndex);
 

@@ -116,6 +116,18 @@ namespace CityFlow {
         if (buffer.isSpeedSet) {
             vehicleInfo.speed = buffer.speed;
             buffer.isSpeedSet = false;
+            if (vehicleInfo.speed > eps && stoppedSince != -1) {
+          			stoppedTime += (engine->getCurrentStep()-stoppedSince)*engine->getInterval();
+   			}
+            if (vehicleInfo.speed < eps) {
+    		    if (stoppedSince == -1)
+          			stoppedSince = engine->getCurrentStep();
+   			}
+            else {
+       			stoppedSince = -1;
+   			}
+
+
         }
         if (buffer.isCustomSpeedSet) {
             buffer.isCustomSpeedSet = false;
@@ -125,6 +137,7 @@ namespace CityFlow {
             controllerInfo.drivable = buffer.drivable;
             buffer.isDrivableSet = false;
             controllerInfo.router.update();
+            totalDistanceTraveled += controllerInfo.prevDrivable->getLength();
         }
         if (buffer.isEnterLaneLinkTimeSet) {
             controllerInfo.enterLaneLinkTime = buffer.enterLaneLinkTime;

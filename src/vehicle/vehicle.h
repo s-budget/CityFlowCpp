@@ -103,6 +103,9 @@ namespace CityFlow {
         int priority;
         std::string id;
         double enterTime;
+        int stoppedSince = -1;
+        double stoppedTime = 0.0;
+        double totalDistanceTraveled = 0.0;
 
         Engine *engine;
 
@@ -185,6 +188,10 @@ namespace CityFlow {
 
         inline double getDistance() const { return controllerInfo.dis; }
 
+        inline double getWaitTime() const { return stoppedTime; }
+
+        inline double getTotalDistanceTraveled() const { return totalDistanceTraveled; }
+
         Point getPoint() const;
 
         inline double getMaxPosAcc() const { return vehicleInfo.maxPosAcc; }
@@ -221,6 +228,8 @@ namespace CityFlow {
         }
 
         inline int getPriority() const { return priority; }
+
+        inline int getStoppedSince() const { return stoppedSince; }
 
         std::pair<Point, Point> getCurPos() const;
 

@@ -1,0 +1,7 @@
+/src/build/
+.idea/
+/.idea/.gitignore
+/.idea/CityFlowCpp.iml
+/.idea/editor.xml
+/.idea/modules.xml
+/.idea/vcs.xml

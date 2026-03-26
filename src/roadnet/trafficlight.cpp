@@ -1,5 +1,6 @@
 #include "roadnet/trafficlight.h"
 #include "roadnet/roadnet.h"
+#include "vehicle/vehicle.h"
 
 namespace CityFlow {
 
@@ -43,5 +44,21 @@ namespace CityFlow {
     void TrafficLight::reset() {
         init(0);
     }
+
+    void TrafficLight::updateMaxQueue() {
+    	if (!maxQueueLength) return;
+    	for (Road *road : intersection->roads) {
+        	if (road->getEndIntersection().getId() == intersection->getId()) {
+            	for (Lane &lane : road->getLanes()) {
+    				int stopped = 0;
+    				for (const Vehicle *vehicle : lane.getVehicles()) {
+        				if (vehicle->getSpeed() < 0.1) stopped++;
+        				else break; // moving vehicle found, queue ends here
+    				}
+    				*maxQueueLength = std::max(*maxQueueLength, stopped);
+				}
+        	}
+    	}
+	}
 
 }
